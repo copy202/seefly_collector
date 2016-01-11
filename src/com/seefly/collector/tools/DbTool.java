@@ -68,6 +68,8 @@ public class DbTool {
 
     public static boolean execute(String sql){
 
+        System.out.println("execute sql <"+sql + ">");
+
         boolean result = true;
         Connection conn  = null;
         Statement st = null;

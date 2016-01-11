@@ -39,6 +39,8 @@ public class Dytt2Extender {
 
     public static void execute(List<String> seeds,String subtype){
 
+        List<String> executeSqlList = new ArrayList<String>();
+
         Date now = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd");
         String exportfilename = dateFormat.format(now)+".sql";
@@ -161,6 +163,7 @@ public class Dytt2Extender {
                                     //System.err.println(sql);
                                     //System.err.println(sql+";");
                                     FileUtils.writeStringToFile(new File("/Users/copy202/Desktop/"+exportfilename), sql+";\n",true);
+                                    executeSqlList.add(sql);
                                     //DbTool.execute(sql);
                                 }
                             }
@@ -175,6 +178,7 @@ public class Dytt2Extender {
                         updateSQL = String.format(updateSQL,title,status,update_time,update_cycle,summary);
                         //boolean result = DbTool.execute(updateSQL);
                         FileUtils.writeStringToFile(new File("/Users/copy202/Desktop/"+exportfilename), updateSQL+";\n",true);
+                        executeSqlList.add(updateSQL);
                         //System.err.println(updateSQL+";");
                     }else{
                         //新增
@@ -183,6 +187,7 @@ public class Dytt2Extender {
                         //boolean result = DbTool.execute(sql);
                         //System.err.println(sql+";");
                         FileUtils.writeStringToFile(new File("/Users/copy202/Desktop/"+exportfilename), sql + ";\n",true);
+                        executeSqlList.add(sql);
                         /*
                         if(false==false){
                             String sql2 = "insert into tb_film_dytt (sid,title,img,film_type,status,rating,casts,countries,summary,subtype,show_time,update_time,update_cycle) values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')";
@@ -197,6 +202,9 @@ public class Dytt2Extender {
                 e.printStackTrace();
             }
 
+        }
+        for(String exesql:executeSqlList){
+            DbTool.execute(exesql);
         }
     }
 

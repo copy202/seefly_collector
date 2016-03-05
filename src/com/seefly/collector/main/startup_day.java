@@ -3,11 +3,9 @@ package com.seefly.collector.main;
 import com.seefly.collector.process.Dytt1Crawler;
 import com.seefly.collector.process.Dytt2Extender;
 import com.seefly.collector.tools.DbTool;
+import org.apache.commons.io.FileUtils;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,10 +19,19 @@ public class startup_day {
 
     public static void main(String[] args) throws Exception {
 
+        /*--------------------------------一天多次删除sql文件--------------------*/
+        Date now = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd");
+        String exportfilename = dateFormat.format(now)+".sql";
+        try {
+            FileUtils.forceDelete(new File("/Users/copy202/Desktop/"+exportfilename));
+        }catch (FileNotFoundException e){
+            System.out.println(".........");
+        }
 
         /*--------------------------------种子 begin---------------------------*/
-        int updatePageNum = 10;
-            /*电影*/
+        int updatePageNum = 2;
+        /*电影*/
         DbTool.execute("delete from tb_film_dytt_seed");
 
         Dytt1Crawler crawler = new Dytt1Crawler("/Users/copy202/test", "tb_film_dytt_seed");
@@ -67,10 +74,8 @@ public class startup_day {
 
         System.out.println("生成sql文件完成,正在转换链接...");
 
-        Date now = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd");
-        String exportfilename = dateFormat.format(now)+".sql";
 
+/*
         Runtime r = Runtime.getRuntime();
         Process p1 = r.exec("/usr/local/bin/node  /Users/copy202/workspace/javascript/2_pre.js");
         //int exitVal = p1.waitFor();
@@ -102,7 +107,7 @@ public class startup_day {
         in2.close();
 
         System.out.println("转换链接完成");
-
+*/
     }
 
     private static List<String> getIds(List<String> organList){

@@ -1,6 +1,7 @@
 package com.seefly.collector.process;
 
 import com.seefly.collector.tools.DbTool;
+import com.seefly.collector.tools.UrlUtil;
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FileUtils;
 import org.apache.http.*;
@@ -158,8 +159,8 @@ public class Dytt2Extender {
                                 int test = DbTool.queryCount("select count(0) as count from tb_film_dytt_thunder where film_dytt_id='"+sid+"' and ed2k_url='"+ed2k+"'");
                                 if(test==0){
                                     //如果没有就新增
-                                    String sql = "insert into tb_film_dytt_thunder(film_dytt_id,title,ed2k_url,create_time,groupname) values('%s','%s','%s',now(),'%s')";
-                                    sql = String.format(sql, sid,title,ed2k,group);
+                                    String sql = "insert into tb_film_dytt_thunder(film_dytt_id,title,ed2k_url,create_time,groupname,thunder_url) values('%s','%s','%s',now(),'%s','%s')";
+                                    sql = String.format(sql, sid,title,ed2k,group, UrlUtil.convertToThunderUrl(ed2k));
                                     //System.err.println(sql);
                                     //System.err.println(sql+";");
                                     FileUtils.writeStringToFile(new File("/Users/copy202/Desktop/"+exportfilename), sql+";\n",true);

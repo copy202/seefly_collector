@@ -23,10 +23,12 @@ public class DbTool {
 
     static {
         Properties prop = new Properties();
-        String dbconf = System.getProperty("user.dir")+"/seefly_collector/conf/db.properties";
+
+        String dbconf = "/Users/copy202/workspace/selfwork/seefly_collector/conf/db.properties";
+        System.out.println(dbconf);
         try {
-            //prop.load(new FileInputStream(dbconf));
-            prop.load(new FileInputStream("conf/db.properties"));
+            prop.load(new FileInputStream(dbconf));
+            //prop.load(new FileInputStream("conf/db.properties"));
             conn_url = prop.getProperty("url");
             conn_driver = prop.getProperty("driver");
             conn_user = prop.getProperty("user");
